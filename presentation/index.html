@@ -1,0 +1,174 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>History API</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+		<style>
+			.reveal p {
+				text-align: justify;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<section data-markdown class="header">
+						<textarea data-template>
+							### Client-side routing: History API ###
+						</textarea>
+					</section>
+				</section>
+				<section>
+					<section data-markdown class="spa-history">
+						<textarea data-template>
+							#### _Single-Page Application (SPA)_ and _History API_ relations ####
+
+							---
+							###### Single-page applications ######
+							<p class="fragment fade-up">Single-page applications, or SPAs, are defined by a core feature: dynamically rewriting their content as the user interacts with the site, instead of the default method of loading entirely new pages from the server.</p>
+
+							---
+							###### ***Advantages of Single-Page Applications*** ######
+							<br>
+							<p class="fragment fade-up">- Fast and responsive (update only required content)</p>
+							<p class="fragment fade-up">- Caching capabilities (can cache any local data)</p>
+							<p class="fragment fade-up">- Linear user experience (simple UI, no endless links)</p>
+							<p class="fragment fade-up">- High performance (reduce server load using async)</p>
+							<p class="fragment fade-up">- Fast in development and mobile-friendly</p>
+
+							---
+							###### ***Disadvantages of Single-Page Applications*** ######
+							<br>
+							<p class="fragment fade-up">- Not great SEO optimization (data downloads on request)</p>
+							<p class="fragment fade-up">- Security issues (need to care about response data)</p>
+							<p class="fragment fade-up">- Some other disadvantages and surely . . .</p>
+							<p class="fragment fade-up">- Browser history lack (SPA doesn't save visitors' jumps between states)</p>
+
+							---
+							###### The problem ######
+							<p class="fragment fade-up">As users love the browser's back button (one of the most popular buttons on all modern browsers). That is why we surely need to know the way how to implement navigation in our application.</p>
+							<br>
+							<p class="fragment fade-up">History API, a powerful set of methods for page navigation and routing in pure vanilla JavaScript, was created for this very goal.</p>
+						</textarea>
+					</section>
+				</section>
+				<section>
+					<section data-markdown class="history-api">
+						<textarea data-template>
+							### History API ###
+							<p class="fragment fade-up">The Web History API provides easy methods to access the History object, which is available through <code style="font-style: oblique">window.history</code>. The <code style="font-style: oblique">window.history</code> object contains the URLs (Web Sites) visited by the user.</p>
+							<p class="fragment fade-up"> The History API assumes that your view is a function of state — that is, what is displayed on screen depends on a global state object. This allows the browser to store all your states so that when a user presses the back button, they return to the previous state as expected.</p>
+
+							---
+							##### Main approaches #####
+							<pre class="fragment">
+								<code> 1. window.history.length;</code>
+								<code> // returns history length</code>
+							</pre>
+
+							<pre class="fragment">
+								<code> 2. window.history.state;</code>
+								<code> // returns current history object</code>
+							</pre>
+
+							<pre class="fragment">
+								<code> 3. window.history.go(n);</code>
+								<code> // moving to a specific point in history</code>
+							</pre>
+
+							<pre class="fragment">
+								<code> 4. window.history.back/forward();</code>
+								<code> // same as history.go(-1 or 1)</code>
+							</pre>
+
+							<pre class="fragment">
+								<code> 5. window.history.pushState(data, title [, url]);</code>
+								<code> // adds history element to the browser's session history stack</code>
+							</pre>
+
+							<pre class="fragment">
+								<code> 6. window.history.replaceState(data, title [, url]);</code>
+								<code> // updates current history item</code>
+							</pre>
+
+							---
+							##### Popstate event #####
+							<p class="fragment">
+								If the history entry being activated was created by a call to history.pushState() or was affected by a call to history.replaceState(), the popstate event's state property contains a copy of the history entry's state object.
+							</p>
+							<p class="fragment">
+								Note that just calling history.pushState() or history.replaceState() <span style="color: red;">won't</span> trigger a popstate event. The popstate event will be triggered by doing a browser action such as a click on the back or forward button (or calling history.back() or history.forward() in JavaScript).
+							</p>
+
+							---
+							##### Usage #####
+							<pre class="fragment">
+								<code>
+								history.pushState({foo: 'bar'}, 'Bar', '/bar.html')
+								</code>
+							</pre>
+
+							<pre class="fragment">
+								<code>
+								history.replaceState({foo: 'bat'}, 'Bar', '/bat.html')
+								</code>
+							</pre>
+
+							<pre class="fragment">
+								<code>
+								window.addEventListener('popstate', router);
+								elements.addEventListener('click', (e) => {
+									router();
+									updateHistory(e);
+								}
+								</code>
+							</pre>
+
+							<pre class="fragment">
+								<code>
+								function updateHistory(e) {
+									const url = e.target.dataset.url;
+									history.pushState(null, null, url);
+								}
+								</code>
+							</pre>
+						</textarea>
+					</section>
+				</section>
+				<section>
+					<section data-markdown class="finish">
+						<textarea data-template>
+							### Thanks for watching! ###
+						</textarea>
+					</section>
+				</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
